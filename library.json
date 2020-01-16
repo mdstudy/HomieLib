@@ -1,0 +1,27 @@
+{
+    "name": "HomieMqttLib",
+    "keywords": "homie, mqtt, esp32",
+    "description": "Arduino Library for Homie MQTT",
+    "repository":
+    {
+      "type": "git",
+      "url": "https://github.com/szwenni/HomieMqttLibrary.git"
+    },
+    "authors":
+    [
+      {
+        "name": "Sven Kroeger",
+        "email": "sven.kroeger@gmail.com",
+        "maintainer": true
+      }
+    ],
+    "dependencies":
+    {
+      "name": "AsyncMqttClient",
+      "authors": "Marvin ROGER",
+      "frameworks": "arduino"
+    },
+    "version": "0.0.9",
+    "frameworks": "arduino",
+    "platforms": "*"
+  }
