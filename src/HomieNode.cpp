@@ -38,7 +38,6 @@ HomieNodeProperty* HomieNode::getPropertyByName(const char * name) {
     for(uint8_t i=0;i<propertyCount;i++) {
         if(this->properties[i] != nullptr) {
             if(strcmp(name, this->properties[i]->propertyId.c_str()) == 0) {
-                Serial.println("Found property");
                 return this->properties[i];
             }
         }

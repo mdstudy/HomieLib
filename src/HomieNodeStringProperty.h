@@ -10,7 +10,7 @@ class HomieNodeStringProperty: public HomieNodeProperty{
     private:
     const char * value = "";
 public:
-    HomieNodeStringProperty(String propertId, String propertyName, String format, String unit, bool isSetable, bool isRetainable, std::function<void(void)> propChangeCallback);
+    HomieNodeStringProperty(String propertId, String propertyName, String format, String unit, bool isSetable, bool isRetainable, std::function<void(void)> propChangeCallback, std::function<void(void)> errorCallback);
 
     void onPropertyChanged(const char * value);
     const char * getPropertyValue();

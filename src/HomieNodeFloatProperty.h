@@ -14,7 +14,7 @@ private:
     float tempNewValue = 0;
     char buffer[33];
 public:
-    HomieNodeFloatProperty(String propertId, String propertyName, String format, String unit, bool isSetable, bool isRetainable, std::function<void(void)> propChangeCallback);
+    HomieNodeFloatProperty(String propertId, String propertyName, String format, String unit, bool isSetable, bool isRetainable, std::function<void(void)> propChangeCallback, std::function<void(void)> errorCallback);
 
     virtual void onPropertyChanged(const char * value);
     virtual const char * getPropertyValue();

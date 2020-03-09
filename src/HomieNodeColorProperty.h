@@ -19,7 +19,7 @@ private:
     char buffer[12];
     
 public:
-    HomieNodeColorProperty(String propertId, String propertyName, bool isSetable, bool isRetainable, bool isHsv, std::function<void(void)> propChangeCallback);
+    HomieNodeColorProperty(String propertId, String propertyName, bool isSetable, bool isRetainable, bool isHsv, std::function<void(void)> propChangeCallback, std::function<void(void)> errorCallback);
 
     virtual void onPropertyChanged(const char * value);
     virtual const char * getPropertyValue();

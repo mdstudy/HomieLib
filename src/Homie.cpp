@@ -37,44 +37,22 @@ void Homie::onRecieve(char * topic, const char * payload) {
     HomieNode* nodeToUse = nullptr;
     HomieNodeProperty* propertyToUse = nullptr;
     while(splitted != 0) {
-        Serial.printf("splitted: %s, Count: %d\n", splitted, count);
         if(count == 0) {
             if(strcmp("homie", splitted) == 0) {
-                Serial.println("Is homie");
                 count++;
             } else {
                 break;
             }
         } else if(count == 1) {
             if(strcmp(deviceId.c_str(), splitted) == 0) {
-                Serial.println("Is my device");
                 count++;
             } else {
                 break;
             }
         } else if(count == 2) {
-            /**if(strcmp(HOMIE_VERSION_TOPIC, splitted) == 0) {
-                announceVersion();
-                break;
-            } else if(strcmp(HOMIE_NAME_TOPIC, splitted) == 0){
-                announceName();
-                break;
-            } else if(strcmp(HOMIE_NODES_TOPIC, splitted) == 0) {
-                announceNodes();
-                break;
-            } else if(strcmp(HOMIE_STATE_TOPIC, splitted) == 0) {
-                announceState();
-                break;
-            } else if (strcmp(HOMIE_IMPLEMENTATION_TOPIC, splitted) == 0) {
-                announceImplementation();
-                break;
-            } else {
-                **/
                 for(uint8_t i=0;i<nodesAdded;i++) {
-                    Serial.printf("NodeId: %s", nodes[i]->nodeId.c_str());
                     if(strcmp(nodes[i]->nodeId.c_str(), splitted) == 0) {
                         nodeToUse = nodes[i];
-                        Serial.println("Found Node to use");
                     }
                 }
                 if(nodeToUse != nullptr) {
@@ -82,20 +60,7 @@ void Homie::onRecieve(char * topic, const char * payload) {
                 } else {
                     break;
                 }
-            //}
         } else if(count == 3) {
-            /**
-            if(strcmp(HOMIE_NAME_TOPIC, splitted) == 0) {
-                announceNodeName(nodeToUse->nodeId.c_str(), nodeToUse->name.c_str());
-                break;
-            } else if(strcmp(HOMIE_NODE_TYPE_TOPIC, splitted) == 0){
-                announceNodeType(nodeToUse->nodeId.c_str(), nodeToUse->type.c_str());
-                break;
-            } else if(strcmp(HOMIE_PROPERTIES_TOPIC, splitted) == 0) {
-                announceNodeProperties(nodeToUse->nodeId.c_str(), nodeToUse->getPropertiesCommaSeperated());
-                break;
-            } else {
-                **/
                 propertyToUse = nodeToUse->getPropertyByName(splitted);
                 if(propertyToUse == nullptr) {
                     break;
@@ -108,38 +73,9 @@ void Homie::onRecieve(char * topic, const char * payload) {
                     }
                 }
                 break;
-            //}
-        }/**
-        if(count == 4) {
-            count++;
-            if(strcmp(HOMIE_NAME_TOPIC, splitted) == 0) {
-                announcePropertyName(nodeToUse->nodeId.c_str(), propertyToUse->propertyId.c_str(), propertyToUse->propertyName.c_str());
-                break;
-            } else if(strcmp(HOMIE_PROPERTY_DATATYPE, splitted) == 0){
-                announcePropertyDataType(nodeToUse->nodeId.c_str(), propertyToUse->propertyId.c_str(), propertyToUse->dt_toString());
-                break;
-            } else if(strcmp(HOMIE_PROPERTY_SETTABLE, splitted) == 0) {
-                announcePropertyIsSetable(nodeToUse->nodeId.c_str(), propertyToUse->propertyId.c_str(), propertyToUse->isSetable);
-                break;
-            } else if(strcmp(HOMIE_PROPERTY_RETAINED, splitted) == 0) {
-                announcePropertyIsSetable(nodeToUse->nodeId.c_str(), propertyToUse->propertyId.c_str(), propertyToUse->isRetained);
-                break;
-            } else if(strcmp(HOMIE_PROPERTY_FORMAT, splitted) == 0) {
-                announcePropertyIsSetable(nodeToUse->nodeId.c_str(), propertyToUse->propertyId.c_str(), propertyToUse->format.c_str());
-                break;
-            } else if(strcmp(HOMIE_PROPERTY_UNIT, splitted) == 0) {
-                announcePropertyIsSetable(nodeToUse->nodeId.c_str(), propertyToUse->propertyId.c_str(), propertyToUse->unit.c_str());
-                break;
-            }
-            
-        }**/
+        }
         splitted = strtok(NULL, "/");
     }
-    /**
-    if(count == 4) {
-        announcePropertyValue(nodeToUse->nodeId.c_str(), propertyToUse->propertyId.c_str(), propertyToUse->getPropertyValue());
-    }
-    **/
 }
 
 void Homie::publishPropertyChange(String nodeId, String propertyId, String newValueAsString, bool isRetained) {

@@ -4,7 +4,7 @@
 #include "Homie.h"
 #include "HomieNodeFloatProperty.h"
 
-    HomieNodeFloatProperty::HomieNodeFloatProperty(String propertId, String propertyName, String format, String unit, bool isSetable, bool isRetainable, std::function<void(void)> propChangeCallback)
+    HomieNodeFloatProperty::HomieNodeFloatProperty(String propertId, String propertyName, String format, String unit, bool isSetable, bool isRetainable, std::function<void(void)> propChangeCallback, std::function<void(void)> errorCallback)
     {
         datatype = DT_FLOAT;
         this->propertyId = propertId;
@@ -14,12 +14,16 @@
         this->isSetable = isSetable;
         this->isRetained = isRetainable;
         this->propChangeCallback = propChangeCallback;
+        this->errorCallback = errorCallback;
 
     }
 
     void HomieNodeFloatProperty::onPropertyChanged(const char * value) {
         this->tempNewValue = strtof(value, NULL);
         if(errno == ERANGE) {
+            if(this->errorCallback != NULL) {
+                this->errorCallback();
+            }
             errno = 0;
         } else {
             this->rawValue = this->tempNewValue;

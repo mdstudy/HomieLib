@@ -4,7 +4,7 @@
 #include "Homie.h"
 #include "HomieNodeIntegerProperty.h"
 
-    HomieNodeIntegerProperty::HomieNodeIntegerProperty(String propertId, String propertyName, String format, String unit, bool isSetable, bool isRetainable, std::function<void(void)> propChangeCallback)
+    HomieNodeIntegerProperty::HomieNodeIntegerProperty(String propertId, String propertyName, String format, String unit, bool isSetable, bool isRetainable, std::function<void(void)> propChangeCallback, std::function<void(void)> errorCallback)
     {
         datatype = DT_INTEGER;
         this->propertyId = propertId;
@@ -14,6 +14,7 @@
         this->isSetable = isSetable;
         this->isRetained = isRetainable;
         this->propChangeCallback = propChangeCallback;
+        this->errorCallback = errorCallback;
 
     }
 
@@ -21,6 +22,9 @@
         
         this->tempNewValue = atoll(value);
         if(errno == ERANGE) {
+            if(this->errorCallback != NULL) {
+                this->errorCallback();
+            }
             errno = 0;
 
         } else {

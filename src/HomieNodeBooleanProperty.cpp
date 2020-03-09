@@ -5,7 +5,7 @@
 #include "HomieNodeBooleanProperty.h"
 
 
-    HomieNodeBooleanProperty::HomieNodeBooleanProperty(String propertId, String propertyName, bool isSetable, bool isRetainable, std::function<void(void)> propChangeCallback)
+    HomieNodeBooleanProperty::HomieNodeBooleanProperty(String propertId, String propertyName, bool isSetable, bool isRetainable, std::function<void(void)> propChangeCallback, std::function<void(void)> errorCallback)
     {
         datatype = DT_BOOLEAN;
         this->propertyId = propertId;
@@ -13,13 +13,18 @@
         this->isSetable = isSetable;
         this->isRetained = isRetainable;
         this->propChangeCallback = propChangeCallback;
+        this->errorCallback = errorCallback;
     }
 
     void HomieNodeBooleanProperty::onPropertyChanged(const char * value) {
         if(strcmp("true", value) == 0) {
             this->rawValue = true;
-        } else {
+        } else if(strcmp("false", value)) {
             this->rawValue = false;
+        } else {
+            if(this->errorCallback != NULL) {
+                this->errorCallback();
+            }
         }
         this->propChangeCallback();
     }

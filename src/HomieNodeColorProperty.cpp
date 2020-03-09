@@ -5,7 +5,7 @@
 #include "Homie.h"
 #include "HomieNodeColorProperty.h"
 
-    HomieNodeColorProperty::HomieNodeColorProperty(String propertId, String propertyName, bool isSetable, bool isRetainable, bool isHsv, std::function<void(void)> propChangeCallback)
+    HomieNodeColorProperty::HomieNodeColorProperty(String propertId, String propertyName, bool isSetable, bool isRetainable, bool isHsv, std::function<void(void)> propChangeCallback, std::function<void(void)> errorCallback)
     {
         datatype = DT_COLOR;
         this->propertyId = propertId;
@@ -18,6 +18,7 @@
             this->format = "rgb";
         }
         this->propChangeCallback = propChangeCallback;
+        this->errorCallback = errorCallback;
     }
 
     void HomieNodeColorProperty::onPropertyChanged(const char * value) {
@@ -39,7 +40,9 @@
             }
             if(errno == ERANGE) {
                 errno = 0;
-                Serial.printf("Error: %d\n", errno);
+                if(this->errorCallback != NULL) {
+                    this->errorCallback();
+                }
                 break;
             } else {
                 count++;

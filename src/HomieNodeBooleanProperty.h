@@ -13,7 +13,7 @@ private:
     bool tempNewValue = 0;
     
 public:
-    HomieNodeBooleanProperty(String propertId, String propertyName, bool isSetable, bool isRetainable, std::function<void(void)> propChangeCallback);
+    HomieNodeBooleanProperty(String propertId, String propertyName, bool isSetable, bool isRetainable, std::function<void(void)> propChangeCallback, std::function<void(void)> errorCallback);
 
     virtual void onPropertyChanged(const char * value);
     virtual const char * getPropertyValue();

@@ -27,6 +27,7 @@ class HomieNodeProperty {
         virtual const char * getPropertyValue() = 0;
         HomieNode* parent;
         std::function<void(void)> propChangeCallback;
+        std::function<void(void)> errorCallback;
         bool formatIsSet() {
             return format != nullptr && format.length() > 0;
         }

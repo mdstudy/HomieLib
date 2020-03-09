@@ -2,7 +2,7 @@
 #include "HomieNodeStringProperty.h"
 #include "HomieNode.h"
 
-    HomieNodeStringProperty::HomieNodeStringProperty(String propertId, String propertyName, String format, String unit, bool isSetable, bool isRetainable, std::function<void(void)> propChangeCallback)
+    HomieNodeStringProperty::HomieNodeStringProperty(String propertId, String propertyName, String format, String unit, bool isSetable, bool isRetainable, std::function<void(void)> propChangeCallback, std::function<void(void)> errorCallback)
     {
         datatype = DT_STRING;
         this->propertyId = propertId;
@@ -12,10 +12,12 @@
         this->isSetable = isSetable;
         this->isRetained = isRetainable;
         this->propChangeCallback = propChangeCallback;
+        this->errorCallback = errorCallback;
 
     }
 
     void HomieNodeStringProperty::onPropertyChanged(const char * value) {
+        //generally no error here as we always have strings
         this->value = strdup(value);
         this->propChangeCallback();
     }
